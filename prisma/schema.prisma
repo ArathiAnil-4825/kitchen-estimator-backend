@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  CONTRACTOR
+  ADMIN
+}
+
+enum ProjectType {
+  KITCHEN_CONSTRUCTION
+  KITCHEN_RENOVATION
+}
+
+enum ProjectStatus {
+  OPEN
+  BILLED
+  APPROVED
+}
+
+enum BillStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         Role
+  createdAt    DateTime  @default(now())
+
+  projects     Project[] @relation("UserProjects")
+  bills        Bill[]    @relation("ContractorBills")
+  approvedBills Bill[]   @relation("ApprovedByAdmin")
+}
+
+model Project {
+  id          Int          @id @default(autoincrement())
+  user        User         @relation("UserProjects", fields: [userId], references: [id])
+  userId      Int
+  type        ProjectType
+  areaSqFt    Int
+  status      ProjectStatus @default(OPEN)
+  createdAt   DateTime      @default(now())
+
+  bill        Bill?
+}
+
+model Bill {
+  id               Int        @id @default(autoincrement())
+  project          Project    @relation(fields: [projectId], references: [id])
+  projectId        Int        @unique
+  contractor       User       @relation("ContractorBills", fields: [contractorId], references: [id])
+  contractorId     Int
+  items            Json
+  totalAmountCents Int
+  status           BillStatus @default(PENDING)
+  createdAt        DateTime   @default(now())
+  approvedAt       DateTime?
+  admin            User?      @relation("ApprovedByAdmin", fields: [approvedByAdminId], references: [id])
+  approvedByAdminId Int?
+}
