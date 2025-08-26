@@ -10,15 +10,21 @@ builder.Services.Configure<KitchenEstimatorDatabaseSettings>(
 // Register services
 builder.Services.AddSingleton<ApprovalService>();
 builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<ProductService>();
+builder.Services.AddSingleton<MaterialService>();
+builder.Services.AddSingleton<LaborRateService>();
+builder.Services.AddSingleton<ProjectService>();
 
 builder.Services.AddControllers();
 
+// CORS configured via appsettings Frontend:AllowedOrigins
+var allowedOrigins = builder.Configuration.GetSection("Frontend:AllowedOrigins").Get<string[]>() ?? new[] { "http://localhost:5173" };
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173") // your React dev server
+            policy.WithOrigins(allowedOrigins)
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
