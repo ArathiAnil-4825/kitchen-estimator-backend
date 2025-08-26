@@ -1,1 +1,11 @@
-{"Version":1,"Hash":"r7plVuIgXxBCC09OS49czYO1hI1kPnHKITacWJ+ji94=","Source":"KitchenEstimatorAPI","BasePath":"_content/KitchenEstimatorAPI","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}
+{
+  "Version": 1,
+  "Hash": "lMVCX+t1I9RM+8SSjokKB4iJ7PCt2WkVT7Fy1fAs7V8=",
+  "Source": "KitchenEstimatorAPI",
+  "BasePath": "_content/KitchenEstimatorAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
